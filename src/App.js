@@ -13,6 +13,7 @@ class App extends Component {
       city: '',
       country: '', 
       isToggleOn: true,
+      isLoading: false,
       icon: '',
       humidity: '',
       temp: '',
@@ -21,19 +22,25 @@ class App extends Component {
       celsius: '',
       fahrenheit: '',
       currentDate: '',
-      currentWeatherIcon: '',
       latitude: null,
       longitude: null,
       error: null,
       coords: ''
     }
     this.onChangeUnit = this.onChangeUnit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
    
   onChangeUnit = () => {
     this.setState(state => ({
         isToggleOn: !state.isToggleOn
     }));
+}
+
+  handleChange = (e) => {
+    this.setState({
+      city: e.target.value
+    });
 }
 
   getWeather = () => {
@@ -52,8 +59,7 @@ class App extends Component {
         fahrenheit: Math.round(parseFloat(data.main.temp) * 1.8 + 32),
         sunrise: new Date(data.sys.sunrise * 1000).getHours(),
         sunset: new Date(data.sys.sunset * 1000).getHours(),
-        currentDate: new Date().toString().split(' ').splice(0, 4).join(' ') ,
-        currentWeatherIcon: data.weather[0].icon,
+        currentDate: new Date().toString().split(' ').splice(0, 4).join(' '),
     }))
     .catch(error => console.log(error));
   }
@@ -86,7 +92,6 @@ class App extends Component {
       const { currentDate, temp, fahrenheit, isToggleOn, description, humidity, wind, icon, isLoading, city, country } = this.state;
 
       return (
-       
         <div className="app">
         {isLoading ? (
           <h1 className="loading-info">Loading...</h1>
@@ -98,6 +103,7 @@ class App extends Component {
             <Weather 
               change={this.onSearchChange}
               handleClick={this.getLocation}
+              handleChange={this.handleChange}
               description={description}
               humidity={humidity}
               wind={wind}
