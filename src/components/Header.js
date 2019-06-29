@@ -4,7 +4,8 @@ const headerStyle = {
   display: 'flex',
   flexDirection: 'row',
   lineHeight: '40px',
-  padding: '0 1rem'
+  padding: '0 1rem',
+  background: 'rgba(0,0,0,0.5)'
 }
 
 const Header = (props) => {
